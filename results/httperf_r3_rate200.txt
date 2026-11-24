@@ -1,0 +1,31 @@
+httperf --timeout=5 --client=0/1 --server=emi.local --port=80 --uri=/ --rate=200 --send-buffer=4096 --recv-buffer=16384 --add-header='Content-Type: application/x-www-form-urlencoded\n' --wsesslog=12000,0.000,results/workload_sesslog.txt
+Maximum connect burst length: 2
+
+Total: connections 12000 requests 12000 replies 6559 test-duration 64.997 s
+
+Connection rate: 184.6 conn/s (5.4 ms/conn, <=1003 concurrent connections)
+Connection time [ms]: min 0.5 avg 318.3 max 5003.8 median 1.5 stddev 969.0
+Connection time [ms]: connect 0.6
+Connection length [replies/conn]: 1.000
+
+Request rate: 184.6 req/s (5.4 ms/req)
+Request size [B]: 163.0
+
+Reply rate [replies/s]: min 0.0 avg 100.9 max 200.0 stddev 87.5 (13 samples)
+Reply time [ms]: response 317.5 transfer 0.3
+Reply size [B]: header 152.0 content 192.0 footer 0.0 (total 344.0)
+Reply status: 1xx=0 2xx=864 3xx=0 4xx=0 5xx=5695
+
+CPU time [s]: user 8.89 system 54.65 (user 13.7% system 84.1% total 97.8%)
+Net I/O: 63.4 KB/s (0.5*10^6 bps)
+
+Errors: total 5441 client-timo 5441 socket-timo 0 connrefused 0 connreset 0
+Errors: fd-unavail 0 addrunavail 0 ftab-full 0 other 0
+
+Session rate [sess/s]: min 0.00 avg 100.91 max 200.01 stddev 87.46 (6559/12000)
+Session: avg 1.00 connections/session
+Session lifetime [s]: 0.3
+Session failtime [s]: 5.0
+Session length histogram: 5441 6559
+
+httperf: warning: open file limit > FD_SETSIZE; limiting max. # of open files to FD_SETSIZE

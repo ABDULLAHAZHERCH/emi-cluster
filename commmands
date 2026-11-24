@@ -1,0 +1,26 @@
+docker run -d --name local-mongo -p 27017:27017 mongo:7
+
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+
+export MONGO_URL="mongodb://localhost:27017/emidb"
+python3 app.py
+
+k8s/ (Namespace, headless Service mongo, StatefulSet mongo, Job mongo-init, ConfigMap emi-config, Deployment emi-web, and ClusterIP Service emi-web).
+
+docker build -t emi-web:1.0 ./app
+minikube image load emi-web:1.0
+
+kubectl get pods -n emi -w
+
+WEB_POD=$(kubectl get pods -n emi -l app=emi-web -o jsonpath='{.items[0].metadata.name}')
+echo "Deleting web pod: $WEB_POD"
+kubectl delete pod "$WEB_POD" -n emi
+
+for i in {1..10}; do
+  curl -s -o /dev/null -w "Req $i -> HTTP %{http_code}\n" -X POST http://emi.local/api/emi \
+    -H "Content-Type: application/json" \
+    -d '{"P":250000,"rate":11,"n":36}'
+  sleep 0.5
+done
